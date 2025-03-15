@@ -1,3 +1,5 @@
 __pycache__/
 venv/
 database.db
+operations.py
+test_data.sql

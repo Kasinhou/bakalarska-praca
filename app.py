@@ -1,8 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for
+import db_operations
+import data_manager
 
 # url_for for dynamically changing redirect, also able to sent by arguments
 
 app = Flask(__name__)
+
+# uncomment when you want to create database and insert test data 
+# (especially if this is your first time running this project)
+# otherwise leave it commented
+# db_operations.create_database()
+# db_operations.insert_data()
+
+drones = data_manager.get_data()
+for drone in drones:
+    print(drone)
 
 # drone reliability
 @app.route('/', methods=['GET', 'POST'])
