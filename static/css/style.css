@@ -6,7 +6,7 @@
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
-  gap: 20px; /* Adds spacing between form and results */
+  gap: 20px;
 }
 
 .container {
@@ -15,13 +15,13 @@
 }
 
 form, .results {
-  flex: 1; /* Makes both sections take equal width */
+  flex: 1;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 500px; /* Ensures a good width for readability */
+  max-width: 500px;
 }
 
 label, input, select, button {

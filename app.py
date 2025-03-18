@@ -24,7 +24,6 @@ def home():
     dronesTypesCount = None
     droneType1 = None
     typeCount1 = None
-    # redundancy = None
     redundantCount = None
     connectionType = None
     cuReliability = None
@@ -34,7 +33,6 @@ def home():
         dronesTypesCount = request.form.get('dronesTypesCount')
         droneType1 = request.form.get('droneType1')
         typeCount1 = request.form.get('typeCount1')
-        # redundancy = True if request.form.get('redundancy') else False
         redundantCount = request.form.get('redundantCount')
         connectionType = request.form.get('connectionType')
         cuReliability = request.form.get('cuReliability')
