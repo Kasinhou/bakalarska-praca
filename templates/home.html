@@ -27,8 +27,8 @@
                                 <option value="" disabled selected>Vyberte</option>
                                 <option value="homogenous_irredundant">Homogenous irredundant</option>
                                 <option value="homogenous_hot_stable_redundant">Homogenous hot stable redundant</option>
-                                <option value="homogenous_irredundant">Heterogenous irredundant</option>
-                                <option value="homogenous_hot_stable_redundant">Heterogenous hot stable redundant</option>
+                                <option value="heterogenous_irredundant">Heterogenous irredundant</option>
+                                <option value="heterogenous_hot_stable_redundant">Heterogenous hot stable redundant</option>
                             </select>
                         </div>
                     </div>
@@ -44,28 +44,21 @@
                         </div>
                     </div>
 
-                    <!-- Redundancy Checkbox -->
-                    <!-- <div class="row">
-                        <div class="col-8">
-                            <label for="redundancy">"Zbytočnosť"</label>
-                        </div>
-                        <div class="col-4">
-                            <input id="redundancy" name="redundancy" type="checkbox">
-                        </div>
-                    </div> -->
+                    
                     <div id="redundancyInputContainer"></div>
                     <hr>
 
                     <!-- Number of Types of Drones -->
-                    <div class="row mt-2">
+                    <div id="dronesTypesCountContainer"></div>
+                    <!-- <div class="row mt-2">
                         <div class="col-8">
                             <label for="dronesTypesCount">Zadaj počet typov dronov vo flotile</label>
                         </div>
                         <div class="col-4">
-                            <!-- uvazovat o maxime -->
+                             uvazovat o maxime 
                             <input id="dronesTypesCount" name="dronesTypesCount" type="number" min="1" required>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Drone Type Selection -->
                     <div id="dronesTypesContainer"></div>
@@ -92,7 +85,7 @@
                     <button type="submit" id="calculateButton">Calculate</button>
                 </form>
             </div>
-            <div class="col-6 results" id="resultsContainer">
+            <!-- <div class="col-6 results" id="resultsContainer">
                 <h2>Výsledok:</h2><br>
                 <h5 id="result">Spoľahlivosť flotily dronov je {{ dronesCount }} %.</h5>
                 <button>Uložiť do súboru</button>
@@ -115,7 +108,7 @@
                     <p>Redundancy: {{ redundancy }}</p>
                     <p>Redundant count: {{ redundantCount }}</p>
                 {% endif %}
-            </div>
+            </div> -->
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
