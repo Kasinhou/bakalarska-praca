@@ -14,13 +14,13 @@
         <div class="container">
             <div class="col-6">
                 <form method="post" id="formContainer">
-                    <h2>Spoľahlivosť flotily dronov</h2>
+                    <h2>Spoľahlivosť roja dronov</h2>
                     <hr>
 
                     <!-- Topology Selection -->
                     <div class="row">
                         <div class="col-8">
-                            <label for="topologySelect">Vyberte štruktúru flotily</label>
+                            <label for="topologySelect">Vyberte štruktúru roja dronov</label>
                         </div>
                         <div class="col-4">
                             <select id="topologySelect" name="topologySelect" class="form-select" required>
@@ -32,12 +32,11 @@
                             </select>
                         </div>
                     </div>
-                    <hr>
 
                     <!-- Number of Drones -->
                     <div class="row">
                         <div class="col-8">
-                            <label for="dronesCount">Zadaj počet dronov vo flotile</label>
+                            <label for="dronesCount">Zadaj počet dronov v roji</label>
                         </div>
                         <div class="col-4">
                             <input id="dronesCount" name="dronesCount" type="number" min="1" required>
@@ -45,36 +44,23 @@
                     </div>
 
                     
-                    <div id="redundancyInputContainer"></div>
-                    <hr>
-
                     <!-- Number of Types of Drones -->
                     <div id="dronesTypesCountContainer"></div>
-                    <!-- <div class="row mt-2">
-                        <div class="col-8">
-                            <label for="dronesTypesCount">Zadaj počet typov dronov vo flotile</label>
-                        </div>
-                        <div class="col-4">
-                             uvazovat o maxime 
-                            <input id="dronesTypesCount" name="dronesTypesCount" type="number" min="1" required>
-                        </div>
-                    </div> -->
 
                     <!-- Drone Type Selection -->
                     <div id="dronesTypesContainer"></div>
                     <!-- <button type="button" id="addTypeButton" class="btn btn-primary">Pridaj dalsi typ</button> -->
-                    <hr>
 
                     <!-- Connection Type Selection -->
                     <div class="row">
                         <div class="col-8">
-                            <label for="connectionType">Typ spojenia flotily s riadiacou jednotkou</label>
+                            <label for="connectionType">Typ spojenia roja s riadiacou jednotkou</label>
                         </div>
                         <div class="col-4">
                             <select id="connectionType" name="connectionType" class="form-select" required>
                                 <option value="" disabled selected>Vyberte typ spojenia</option>
-                                <option value="centralizovane">Centralizovane</option>
-                                <option value="decentralizovane">Decentralizovane</option>
+                                <option value="centralized">Centralizovane</option>
+                                <option value="decentralized">Decentralizovane</option>
                             </select>
                         </div>
                     </div>
@@ -111,6 +97,6 @@
             </div> -->
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </body>
 </html>

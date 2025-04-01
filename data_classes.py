@@ -33,7 +33,7 @@ class Drone:
         self.information = information
 
     def __str__(self):
-            drone_str = f'Drone: {self.name} ({self.description})' if self.description else f'Drone {self.name}'
-            info_str = f'\n----------------------\n{self.information}' if self.information else ''
-            
-            return f'\n{drone_str} \nReliability = {self.reliability}\n{self.type}{info_str}'
+        drone_str = f'Drone: {self.name} ({self.description})' if self.description else f'Drone {self.name}'
+        info_str = f'\n----------------------\n{self.information}' if self.information else ''
+        
+        return f'\n{drone_str} \nReliability = {self.reliability}\n{self.type}{info_str}'
