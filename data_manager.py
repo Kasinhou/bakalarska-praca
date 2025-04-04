@@ -38,5 +38,14 @@ class DataManager:
         results = self.cursor.fetchall()
         return results
     
+    def get_reliability_by_name(self, name):
+        self.cursor.execute(
+            '''SELECT d.reliability FROM drones d
+            WHERE d.name = ?
+            ''', (name,)
+        )
+        reliability = self.cursor.fetchone()
+        return reliability[0] if reliability else None
+    
     def close_connection(self):
         self.connection.close()

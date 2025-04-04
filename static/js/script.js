@@ -115,7 +115,7 @@ document.getElementById("topologySelect").addEventListener("change", function (e
         const dronesTypesCount = document.createElement("div");
         dronesTypesCount.classList.add("col-4");
         // uvazovat nad max poctom
-        dronesTypesCount.innerHTML = `<input id="dronesTypesCount" name="dronesTypesCount" type="number" min="1" required>`;
+        dronesTypesCount.innerHTML = `<input id="dronesTypesCount" name="dronesTypesCount" type="number" min="2" required>`;
 
         row.appendChild(dronesTypesCountLabel);
         row.appendChild(dronesTypesCount);

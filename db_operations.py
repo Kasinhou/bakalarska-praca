@@ -42,10 +42,10 @@ class DatabaseOperation:
             )'''
         )
 
+        # id INTEGER PRIMARY KEY AUTOINCREMENT,
         self.cursor.execute(
             '''CREATE TABLE IF NOT EXISTS drone_information (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                drone_id INTEGER NOT NULL,
+                drone_id INTEGER PRIMARY KEY,
                 size FLOAT, -- cm
                 weight FLOAT, -- kg
                 max_speed FLOAT, --m/s

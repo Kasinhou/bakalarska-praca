@@ -17,7 +17,7 @@ app = Flask(__name__)
 # db_operations.close_connection()
 
 data_manager = DataManager()
-drones = data_manager.get_all_information()
+# drones = data_manager.get_all_information()
 drones_types = data_manager.get_drones()
 
 data_manager.close_connection()
@@ -25,22 +25,29 @@ data_manager.close_connection()
 # drone reliability
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    structureSelected = None
-    dronesCount = None
-    dronesTypesCount = None
-    redundantCount = None
-    connectionType = None
-    cuReliability = None
+    swarmInfo = {}
+    
     if request.method == 'POST':
-        structureSelected = request.form.get('topologySelect')
-        dronesCount = request.form.get('dronesCount')
-        dronesTypesCount = request.form.get('dronesTypesCount')
-        redundantCount = request.form.get('redundantCount')
-        connectionType = request.form.get('connectionType')
-        cuReliability = request.form.get('cuReliability')
-        # print(f"""Topology: {structureSelected}, drones: {dronesCount}= {dronesTypesCount}, 
-        #       {redundantCount}, connection {connectionType}: {cuReliability}.""")
-        calculation = Calculation(structureSelected, dronesCount, dronesTypesCount, connectionType, redundantCount, cuReliability)
+        swarmInfo['structure'] = request.form.get('topologySelect')
+        swarmInfo['dronesCount'] = request.form.get('dronesCount')
+        swarmInfo['typesCount'] = request.form.get('dronesTypesCount')
+        swarmInfo['connection'] = request.form.get('connectionType')
+        swarmInfo['cuReliability'] = request.form.get('cuReliability')
+
+        swarmInfo['typesInfo'] = []
+        for i in range(1, int(swarmInfo['typesCount']) + 1):
+            droneType = request.form.get(f'droneType{i}')
+            typeCount = request.form.get(f'typeCount{i}')
+            redundantCount = request.form.get(f'redundantCount{i}')
+
+            swarmInfo['typesInfo'].append({ 'droneType': droneType, 'typeCount': typeCount, 'redundantCount': redundantCount })
+
+
+        calculation = Calculation(swarmInfo)
+
+        # collect errors from the server side
+        calculation.validate_data()
+        calculation.calculate()
     return render_template('home.html')
 
 @app.route('/api/drones')
