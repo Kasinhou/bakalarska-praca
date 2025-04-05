@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request
 from db_operations import DatabaseOperation
 from data_manager import DataManager
 from reliability import Calculation
@@ -46,7 +46,10 @@ def home():
         calculation = Calculation(swarmInfo)
 
         # collect errors from the server side
-        calculation.validate_data()
+        errors = calculation.validate_data()
+        if errors:
+            print(errors)
+            return jsonify({"success": False, "errors": errors}), 400
         calculation.calculate()
     return render_template('home.html')
 

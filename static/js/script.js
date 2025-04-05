@@ -67,6 +67,7 @@ async function updateDroneTypes(countTypesArg = null) {
             selectType.id = "droneType" + i;
             selectType.name = "droneType" + i;
             selectType.classList.add("form-select");
+            selectType.required = true;
             selectType.innerHTML = options;
             colType.appendChild(selectType);
 

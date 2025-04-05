@@ -20,8 +20,35 @@ class Calculation:
             "heterogenous_redundant_centralized": self.a_herc,
         }
 
+    # function used for validation user inputs
     def validate_data(self):
-        pass
+        errors = []
+
+        # number of drones check
+        total_drones_count = int(self.swarmInfo['dronesCount'])
+        cu_drone_count = 1 if self.swarmInfo['connection'] == 'centralized' else 0
+        sum_drones_count = sum(int(i.get('typeCount')) for i in self.swarmInfo['typesInfo']) + cu_drone_count
+        if sum_drones_count > total_drones_count:
+            errors.append(f'Celkovy sucet dronov {sum_drones_count} je vacsi ako zadany pocet dronov {total_drones_count}')
+        elif sum_drones_count < total_drones_count:
+            errors.append(f'Celkovy sucet dronov {sum_drones_count} je mensi ako zadany pocet dronov {total_drones_count}')
+
+        # redundant type count check, porozmyslat nad tym ci nemozno mat jeden typ kvazi bez zaloznych
+        if self.swarmInfo['structure'].split('_')[-1] == 'redundant':
+            for count, i in enumerate(self.swarmInfo['typesInfo']):
+                if int(i.get('typeCount')) < int(i.get('redundantCount')):
+                    errors.append(f'{i.get('droneType')} nesmie mat vacsi pocet dronov v MDF {i.get('redundantCount')} ako celkovo {i.get('typeCount')}')
+        
+        # same type of drones used
+        usedTypes = []
+        for count, i in enumerate(self.swarmInfo['typesInfo']):
+            name = i.get('droneType')
+            if name not in usedTypes:
+                usedTypes.append(name)
+            else:
+                errors.append(f'{name} je pouzity vo viacerych typoch')
+
+        return errors
 
     def calculate(self):
         print(self.swarmInfo)
