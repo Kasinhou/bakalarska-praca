@@ -131,7 +131,44 @@ document.getElementById("topologySelect").addEventListener("change", function (e
     }
 });
 
-// document.getElementById("formContainer").addEventListener("submit", async function (event) {
-//     event.preventDefault();
-//     alert("Form submitted without reloading!"); 
-// });
+document.getElementById("formContainer").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    // alert("Form submitted!");
+
+    const formData = new FormData(event.target);
+    
+    try {
+        const response = await fetch('/', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            console.log('Response is not ok, errors! ' + result.errors);
+            showErrors(result.errors)
+        } else {
+            console.log('Response is ok, ' + result.result);
+            showResult(result.result);
+        }
+        console.log('HEREEEEEEEEEEEEEEEEEE')
+
+    } catch (error) {
+        console.error('Nepodarilo sa fetchnut response. :' + error);
+    }
+});
+
+function showResult(result) {
+    const resultContainer = document.getElementById('resultsContainer');
+    result.innerHTML = "";
+    resultContainer.innerHTML = `<p>Spoľahlivosť, respektíve dostupnosť roja dronov je ${result}.</p>`;
+}
+
+function showErrors(errors) {
+    const errorContainer = document.getElementById('resultsContainer');
+    errorContainer.innerHTML = "";
+    const ul = document.createElement('ul');
+    ul.classList.add('text-danger')
+    ul.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+    errorContainer.appendChild(ul);
+}

@@ -36,7 +36,8 @@ class Calculation:
         # redundant type count check, porozmyslat nad tym ci nemozno mat jeden typ kvazi bez zaloznych
         if self.swarmInfo['structure'].split('_')[-1] == 'redundant':
             for count, i in enumerate(self.swarmInfo['typesInfo']):
-                if int(i.get('typeCount')) < int(i.get('redundantCount')):
+                # <= / <
+                if int(i.get('typeCount')) <= int(i.get('redundantCount')):
                     errors.append(f'{i.get('droneType')} nesmie mat vacsi pocet dronov v MDF {i.get('redundantCount')} ako celkovo {i.get('typeCount')}')
         
         # same type of drones used
@@ -55,7 +56,8 @@ class Calculation:
         structure_parts = self.swarmInfo['structure'].split('_')
         operation = '_'.join([structure_parts[0], structure_parts[-1], self.swarmInfo['connection']])
         print(operation)
-        print('Reliability of this structure is: ' + str(self.operations[operation]()))
+        # print('Reliability of this structure is: ' + str(self.operations[operation]()))
+        return self.operations[operation]()
         
 
     # pocet dronov n

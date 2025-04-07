@@ -71,30 +71,8 @@
                     <button type="submit" id="calculateButton">Calculate</button>
                 </form>
             </div>
-            <!-- <div class="col-6 results" id="resultsContainer">
-                <h2>Výsledok:</h2><br>
-                <h5 id="result">Spoľahlivosť flotily dronov je {{ dronesCount }} %.</h5>
-                <button>Uložiť do súboru</button>
-                <br><br>
-                {% if topologySelect%}
-                    <p>Selected topology: {{ topologySelect }}</p>
-                {% endif %}
-                {% if dronesCount %}
-                    <p>Number of drones: {{ dronesCount }}</p>
-                {% endif %}
-                {% if dronesTypesCount %}
-                    <p>Number of drones types: {{ dronesTypesCount }}</p>
-                {% endif %}
-                {% if droneType1 %}
-                    <p>Number of drones type: {{ droneType1 }} - {{ typeCount1 }}</p>
-                {% endif %}
-                {% if connectionType %}
-                    <p>Connection type: {{ connectionType }}</p>
-                    <p>Central unit reliability: {{ cuReliability }}</p>
-                    <p>Redundancy: {{ redundancy }}</p>
-                    <p>Redundant count: {{ redundantCount }}</p>
-                {% endif %}
-            </div> -->
+            <div class="col-6 results" id="resultsContainer"></div>
+            
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>

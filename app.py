@@ -50,7 +50,9 @@ def home():
         if errors:
             print(errors)
             return jsonify({"success": False, "errors": errors}), 400
-        calculation.calculate()
+        reliability = calculation.calculate()
+        print(reliability)
+        return jsonify({"success": True, 'result': reliability })
     return render_template('home.html')
 
 @app.route('/api/drones')
