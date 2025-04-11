@@ -37,12 +37,17 @@ def home():
         swarmInfo['typesInfo'] = []
         for i in range(1, int(swarmInfo['typesCount']) + 1):
             droneType = request.form.get(f'droneType{i}')
+            if (droneType == None):
+                droneType = 'CUSTOM'
+                customReliability = request.form.get(f'customReliability{i}')
+            else:
+                customReliability = None
             typeCount = request.form.get(f'typeCount{i}')
             redundantCount = request.form.get(f'redundantCount{i}')
 
-            swarmInfo['typesInfo'].append({ 'droneType': droneType, 'typeCount': typeCount, 'redundantCount': redundantCount })
+            swarmInfo['typesInfo'].append({ 'droneType': droneType, 'customReliability': customReliability, 'typeCount': typeCount, 'redundantCount': redundantCount })
 
-
+        print(swarmInfo)
         calculation = Calculation(swarmInfo)
 
         # collect errors from the server side

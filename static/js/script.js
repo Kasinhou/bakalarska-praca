@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const cuLabel = document.createElement("div");
             cuLabel.classList.add("col-8");
-            cuLabel.innerHTML = `<label>Zadaj spoľahlivosť riadiacej jednotky (%)</label>`;
+            cuLabel.innerHTML = `<label>Zadaj spoľahlivosť riadiacej jednotky </label>`;
 
             const cuReliability = document.createElement("div");
             cuReliability.classList.add("col-4");
-            cuReliability.innerHTML = `<input id="cuReliability" name="cuReliability" type="number" min="0" max="100" step="0.01" required>`;
+            cuReliability.innerHTML = `<input id="cuReliability" name="cuReliability" type="number" min="0" max="1" step="0.01" required>`;
 
             row.appendChild(cuLabel);
             row.appendChild(cuReliability);
@@ -71,6 +71,43 @@ async function updateDroneTypes(countTypesArg = null) {
             selectType.innerHTML = options;
             colType.appendChild(selectType);
 
+            const customSwitch = document.createElement("div");
+            customSwitch.classList.add("form-check", "form-switch");
+            customSwitch.innerHTML = `<input class="form-check-input" type="checkbox" id="customTypeSwitch${i}">
+                                           <label class="form-check-label" for="customTypeSwitch${i}">Vlastná spoľahlivosť</label>`;
+            colType.appendChild(customSwitch);
+
+            customSwitch.querySelector(`#customTypeSwitch${i}`).addEventListener("change", function () {
+                const customInput = document.getElementById("customReliability" + i);
+                const select = document.getElementById("droneType" + i);
+
+                if (this.checked) {
+                    if (select) { select.remove(); }
+
+                    const customInputReliability = document.createElement("input");
+                    customInputReliability.id = "customReliability" + i;
+                    customInputReliability.name = "customReliability" + i;
+                    customInputReliability.type = "number";
+                    customInputReliability.min = "0";
+                    customInputReliability.max = "1";
+                    customInputReliability.step = "0.01";
+                    customInputReliability.required = true;
+                    customInputReliability.classList.add("form-control");
+
+                    colType.insertBefore(customInputReliability, customSwitch);
+                } else {
+                    if (customInput) { customInput.remove(); }
+
+                    const select = document.createElement("select");
+                    select.id = "droneType" + i;
+                    select.name = "droneType" + i;
+                    select.classList.add("form-select");
+                    select.required = true;
+                    select.innerHTML = options;
+
+                    colType.insertBefore(select, customSwitch);
+                }
+            });
 
             const colTypeCount = document.createElement("div");
             colTypeCount.classList.add("col-3");
@@ -115,7 +152,6 @@ document.getElementById("topologySelect").addEventListener("change", function (e
 
         const dronesTypesCount = document.createElement("div");
         dronesTypesCount.classList.add("col-4");
-        // uvazovat nad max poctom
         dronesTypesCount.innerHTML = `<input id="dronesTypesCount" name="dronesTypesCount" type="number" min="2" required>`;
 
         row.appendChild(dronesTypesCountLabel);
@@ -151,7 +187,6 @@ document.getElementById("formContainer").addEventListener("submit", async functi
             console.log('Response is ok, ' + result.result);
             showResult(result.result);
         }
-        console.log('HEREEEEEEEEEEEEEEEEEE')
 
     } catch (error) {
         console.error('Nepodarilo sa fetchnut response. :' + error);

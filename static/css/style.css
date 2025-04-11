@@ -1,48 +1,97 @@
+/* This can be modified based on user preference. */
+body {
+  margin: 0;
+  padding: 20px;
+  color: #0b1215;
+  background: #fcfcf7;
+}
+
 .everything {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   gap: 20px;
 }
 
 .container {
   display: flex;
   gap: 20px;
+  margin: auto;
 }
 
 form, .results {
   flex: 1;
-  padding: 20px;
+  padding: 30px;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  background-color: #faf9f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   max-width: 500px;
 }
 
-label, input, select, button {
+h2 {
+  margin-bottom: 10px;
+  font-size: 1.75rem;
+  color: #0d1717;
+}
+
+label {
+  font-weight: 500;
   display: block;
-  margin-bottom: 15px;
-  width: 100%;
+  margin-bottom: 5px;
+  color: #0d1717;
 }
 
 input, select, button {
+  display: block;
+  margin-bottom: 15px;
+  width: 100%;
   padding: 10px;
   font-size: 16px;
+  appearance: none;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 button {
-  background-color: #007BFF;
+  background-color: #07554e;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0b6f65;
+}
+
+input[type="number"], select, .form-select, .form-control {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #0d1717;
+  transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus, select:focus {
+  border-color: #0d1717;
+  box-shadow: 0 0 0 3px rgba(11, 111, 101, 0.2);
+  outline: none;
+}
+
+.form-check {
+  margin-top: 5px;
+}
+
+.form-check-input {
+  cursor: pointer;
 }

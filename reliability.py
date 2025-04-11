@@ -45,29 +45,28 @@ class Calculation:
         for count, i in enumerate(self.swarmInfo['typesInfo']):
             name = i.get('droneType')
             if name not in usedTypes:
-                usedTypes.append(name)
+                if name != 'CUSTOM':
+                    usedTypes.append(name)
             else:
                 errors.append(f'{name} je pouzity vo viacerych typoch')
 
         return errors
 
     def calculate(self):
-        print(self.swarmInfo)
         structure_parts = self.swarmInfo['structure'].split('_')
         operation = '_'.join([structure_parts[0], structure_parts[-1], self.swarmInfo['connection']])
         print(operation)
-        # print('Reliability of this structure is: ' + str(self.operations[operation]()))
         return self.operations[operation]()
         
+    # reliability of drone by name
+    def get_drone_reliability(self, drone_name: str):
+        return float(self.swarmInfo['typesInfo'][0]['customReliability']) if drone_name == 'CUSTOM' else next((drone[1] for drone in self.drones if drone[0] == drone_name), None)
 
     # pocet dronov n
     # spolahlivost dronov p
     def a_hoid(self) -> float:
         droneName = self.swarmInfo['typesInfo'][0]['droneType']
-        reliability = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
-        if reliability is None:
-            print('Problem heree')
-            return 0
+        reliability = self.get_drone_reliability(droneName)
         return reliability ** int(self.swarmInfo['dronesCount'])
 
     # pocet dronov n
@@ -75,10 +74,7 @@ class Calculation:
     # spolahlivost dronov p
     def a_hoic(self) -> float:
         droneName = self.swarmInfo['typesInfo'][0]['droneType']
-        reliability = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
-        if reliability is None:
-            print('Problem heree')
-            return 0
+        reliability = self.get_drone_reliability(droneName)
         return math.pow(reliability, int(self.swarmInfo['dronesCount']) - 1) * float(self.swarmInfo['cuReliability'])
 
     # pocet dronov n
@@ -87,9 +83,9 @@ class Calculation:
     def a_hord(self) -> float:
         n = int(self.swarmInfo['dronesCount'])
         droneName = self.swarmInfo['typesInfo'][0]['droneType']
-        p = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
+        reliability = self.get_drone_reliability(droneName)
         k = int(self.swarmInfo['typesInfo'][0]['redundantCount'])
-        return sum(math.comb(n, s) * math.pow(p, s) * math.pow(1 - p, n - s) for s in range(k, n + 1)) 
+        return sum(math.comb(n, s) * math.pow(reliability, s) * math.pow(1 - reliability, n - s) for s in range(k, n + 1)) 
 
     # pocet dronov n
     # pocet pracujucich dronov v MDF k
@@ -98,9 +94,9 @@ class Calculation:
     def a_horc(self) -> float:
         n = int(self.swarmInfo['dronesCount'])
         droneName = self.swarmInfo['typesInfo'][0]['droneType']
-        p = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
+        reliability = self.get_drone_reliability(droneName)
         k = int(self.swarmInfo['typesInfo'][0]['redundantCount'])
-        return float(self.swarmInfo['cuReliability']) * sum(math.comb(n - 1, s) * math.pow(p, s) * math.pow(1 - p, n - s) for s in range(k, n))
+        return float(self.swarmInfo['cuReliability']) * sum(math.comb(n - 1, s) * math.pow(reliability, s) * math.pow(1 - reliability, n - s) for s in range(k, n))
     
     # pocet typov dronov K
     # pocet dronov typu r lr
@@ -110,7 +106,7 @@ class Calculation:
         for r in range(int(self.swarmInfo['typesCount'])):
             droneName = self.swarmInfo['typesInfo'][r]['droneType']
             numberOfType = int(self.swarmInfo['typesInfo'][r]['typeCount'])
-            reliability = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
+            reliability = self.get_drone_reliability(droneName)
             result *= reliability ** numberOfType
         return result
 
@@ -123,7 +119,7 @@ class Calculation:
         for r in range(int(self.swarmInfo['typesCount'])):
             droneName = self.swarmInfo['typesInfo'][r]['droneType']
             numberOfType = int(self.swarmInfo['typesInfo'][r]['typeCount'])
-            reliability = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
+            reliability = self.get_drone_reliability(droneName)
             result *= reliability ** numberOfType
         return result * float(self.swarmInfo['cuReliability'])
 
@@ -136,7 +132,7 @@ class Calculation:
         for r in range(int(self.swarmInfo['typesCount'])):
             droneName = self.swarmInfo['typesInfo'][r]['droneType']
             numberOfType = int(self.swarmInfo['typesInfo'][r]['typeCount'])
-            reliability = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
+            reliability = self.get_drone_reliability(droneName)
             redundant = int(self.swarmInfo['typesInfo'][r]['redundantCount'])
             tempSum: float = 0.0
             for s in range(redundant, numberOfType + 1):
@@ -155,7 +151,7 @@ class Calculation:
         for r in range(int(self.swarmInfo['typesCount'])):
             droneName = self.swarmInfo['typesInfo'][r]['droneType']
             numberOfType = int(self.swarmInfo['typesInfo'][r]['typeCount'])
-            reliability = next((drone[1] for drone in self.drones if drone[0] == droneName), None)
+            reliability = self.get_drone_reliability(droneName)
             redundant = int(self.swarmInfo['typesInfo'][r]['redundantCount'])
             tempSum: float = 0.0
             for s in range(redundant, numberOfType + 1):
