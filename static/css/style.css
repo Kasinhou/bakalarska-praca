@@ -1,4 +1,31 @@
 /* This can be modified based on user preference. */
+@media (max-width: 1000px) {
+  .everything {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .container {
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+  }
+
+  label {
+    white-space: normal;
+  }
+
+  form, .results {
+    width: 100%;
+    max-width: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+    flex: 1;
+  }
+}
+
 body {
   margin: 0;
   padding: 20px;
@@ -9,11 +36,13 @@ body {
 .everything {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
   min-height: 100vh;
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   gap: 20px;
+  width: 100%;
 }
 
 .container {
@@ -25,11 +54,12 @@ body {
 form, .results {
   flex: 1;
   padding: 30px;
-  border: 1px solid #ddd;
+  border: 1px solid #07554e;
   border-radius: 16px;
   background-color: #faf9f6;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
+  max-width: 100%;
+  min-width: 35%;
 }
 
 h2 {
@@ -41,17 +71,38 @@ h2 {
 label {
   font-weight: 500;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: #0d1717;
+  white-space: nowrap;
 }
 
-input, select, button {
+select {
+  border: 1px solid #0d1717;
+  background-color: #fcfcf7;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px 40px 10px 12px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+input, button {
   display: block;
   margin-bottom: 15px;
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  appearance: none;
+  text-align: center;
+}
+
+input::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 1;
 }
 
 .row {
@@ -73,7 +124,7 @@ button:hover {
   background-color: #0b6f65;
 }
 
-input[type="number"], select, .form-select, .form-control {
+input[type="number"], .form-control {
   width: 100%;
   padding: 8px 12px;
   margin-bottom: 10px;
@@ -92,6 +143,46 @@ input[type="number"]:focus, select:focus {
   margin-top: 5px;
 }
 
+.form-check-input:checked, select {
+  background-color: #07554e;
+}
+
 .form-check-input {
   cursor: pointer;
+}
+
+.error-list {
+  color: #990000;
+  padding-left: 10px;
+  margin: 10px 0 0;
+  list-style: none;
+}
+
+.error-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  border: #dfb322;
+  border-radius: 8px;
+  background-color: #fff3cd;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.error-list .bullet {
+  margin-right: 8px;
+  font-weight: bold;
+  color: #db0000;
+  font-size: 1.2rem;
+}
+
+.result-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.info-icon {
+  color: #0d1717;
 }
