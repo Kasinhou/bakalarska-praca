@@ -24,6 +24,12 @@ class Calculation:
     def validate_data(self):
         errors = []
 
+        # check correct json keys
+        if self.swarmInfo['structure'] not in ['homogenous_irredundant', 'homogenous_hot_stable_redundant', 'heterogenous_irredundant', 'heterogenous_hot_stable_redundant']:
+            errors.append(f'Error: Incorrect structure - {self.swarmInfo['structure']}.')
+        if self.swarmInfo['connection'] not in ['centralized', 'decentralized']:
+            errors.append(f'Error: Incorrect connection - {self.swarmInfo['connection']}.')
+
         # number of drones check
         total_drones_count = int(self.swarmInfo['dronesCount'])
         cu_drone_count = 1 if self.swarmInfo['connection'] == 'centralized' else 0
