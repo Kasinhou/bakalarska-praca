@@ -1,7 +1,6 @@
-# This python script will create a tables in database.db file (SQLite3).
+# This will create a tables in database.db file (SQLite3).
 # The database will be used to store information about drones and drones types.
-# It is executed right at the start of the application.
-# Otherwise, you can execute this script in python terminal when there is no database - python create_db.py (consider later pushing database to git)
+# It is called right at the start of the application.
 
 import sqlite3
 
@@ -42,7 +41,6 @@ class DatabaseOperation:
             )'''
         )
 
-        # id INTEGER PRIMARY KEY AUTOINCREMENT,
         self.cursor.execute(
             '''CREATE TABLE IF NOT EXISTS drone_information (
                 drone_id INTEGER PRIMARY KEY,

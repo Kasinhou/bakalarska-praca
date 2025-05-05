@@ -3,6 +3,7 @@ from data_classes import Type, Drone, DroneInformation
 
 DB_PATH = 'database.db'
 
+# this class get the infromation from the database
 class DataManager:
     def __init__(self):
         self.connection = sqlite3.connect(DB_PATH)
@@ -29,6 +30,7 @@ class DataManager:
 
         return drones
     
+    # retrieve all drones
     def get_drones(self):
         self.cursor.execute(
             '''SELECT d.name, d.reliability, d.description
@@ -38,6 +40,7 @@ class DataManager:
         results = self.cursor.fetchall()
         return results
     
+    # retrieve reliability of drone by given name
     def get_reliability_by_name(self, name):
         self.cursor.execute(
             '''SELECT d.reliability FROM drones d

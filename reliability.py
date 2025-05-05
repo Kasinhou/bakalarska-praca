@@ -1,6 +1,7 @@
 import math
 from data_manager import DataManager
 
+# this class takes care of the validation and overall calculation of availability of fleet
 class Calculation:
     def __init__(self, swarmInfo):
         self.swarmInfo = swarmInfo
@@ -39,7 +40,7 @@ class Calculation:
         elif sum_drones_count < total_drones_count:
             errors.append(f'The total sum of drones ({sum_drones_count}) is less than the specified number of drones ({total_drones_count}). Do not forget that CU is also included in total number of drones.')
 
-        # redundant type count check, porozmyslat nad tym ci nemozno mat jeden typ kvazi bez zaloznych
+        # redundant type count check
         if self.swarmInfo['structure'].split('_')[-1] == 'redundant':
             for count, i in enumerate(self.swarmInfo['typesInfo']):
                 # <= / <
@@ -69,41 +70,31 @@ class Calculation:
         drone_name = self.swarmInfo['typesInfo'][i]['droneType']
         return float(self.swarmInfo['typesInfo'][i]['customReliability']) if drone_name == 'CUSTOM' else next((drone[1] for drone in self.drones if drone[0] == drone_name), None)
 
-    # pocet dronov n
-    # spolahlivost dronov p
+    # homogenous irredundant with decentralized control
     def a_hoid(self) -> float:
         reliability = self.get_drone_reliability(0)
         return reliability ** int(self.swarmInfo['dronesCount'])
 
-    # pocet dronov n
-    # spolahlivost CU pn
-    # spolahlivost dronov p
+    # homogenous irredundant with centralized control
     def a_hoic(self) -> float:
         reliability = self.get_drone_reliability(0)
         return math.pow(reliability, int(self.swarmInfo['dronesCount']) - 1) * float(self.swarmInfo['cuReliability'])
 
-    # pocet dronov n
-    # pocet pracujucich dronov v MDF k
-    # pravdepodobnost dronov p
+    # homogenous redundant with decentralized control
     def a_hord(self) -> float:
         n = int(self.swarmInfo['dronesCount'])
         reliability = self.get_drone_reliability(0)
         k = int(self.swarmInfo['typesInfo'][0]['redundantCount'])
         return sum(math.comb(n, s) * math.pow(reliability, s) * math.pow(1 - reliability, n - s) for s in range(k, n + 1)) 
 
-    # pocet dronov n
-    # pocet pracujucich dronov v MDF k
-    # pravdepodobnost dronov p
-    # spolahlivost CU pn
+    # homogenous redundant with centralized control
     def a_horc(self) -> float:
         n = int(self.swarmInfo['dronesCount'])
         reliability = self.get_drone_reliability(0)
         k = int(self.swarmInfo['typesInfo'][0]['redundantCount'])
         return float(self.swarmInfo['cuReliability']) * sum(math.comb(n - 1, s) * math.pow(reliability, s) * math.pow(1 - reliability, n - 1 - s) for s in range(k, n))
     
-    # pocet typov dronov K
-    # pocet dronov typu r lr
-    # spolahlivost dronov typu r pr
+    # heterogenous irredundant with decentralized control
     def a_heid(self) -> float:
         result: float = 1.0
         for r in range(int(self.swarmInfo['typesCount'])):
@@ -112,10 +103,7 @@ class Calculation:
             result *= math.pow(reliability, numberOfType)
         return result
 
-    # pocet typov dronov K
-    # pocet dronov typu r lr
-    # spolahlivost dronov typu r pr
-    # spolahlivost CU pn
+    # heterogenous irredundant with centralized control
     def a_heic(self) -> float:
         result: float = 1.0
         for r in range(int(self.swarmInfo['typesCount'])):
@@ -124,10 +112,7 @@ class Calculation:
             result *= math.pow(reliability, numberOfType)
         return result * float(self.swarmInfo['cuReliability'])
 
-    # pocet typov dronov K
-    # celkovy pocet dronov typu r lr
-    # pocet pracujucich dronov typu r v MDF kr
-    # spolahlivost dronov typu r pr
+    # heterogenous redundant with decentralized control
     def a_herd(self) -> float:
         result: float = 1.0
         for r in range(int(self.swarmInfo['typesCount'])):
@@ -141,11 +126,7 @@ class Calculation:
             result *= tempSum
         return result
     
-    # pocet typov dronov K
-    # celkovy pocet dronov typu r lr
-    # pocet pracujucich dronov typu r v MDF kr
-    # spolahlivost dronov typu r pr
-    # spolahlivost CU pn
+    # heterogenous redundant with centralized control
     def a_herc(self) -> float:
         result: float = 1.0
         for r in range(int(self.swarmInfo['typesCount'])):

@@ -26,7 +26,7 @@ data_manager.close_connection()
 @app.route('/', methods=['GET', 'POST'])
 def home():
     swarmInfo = {}
-    
+    # create json with all user input data
     if request.method == 'POST':
         swarmInfo['structure'] = request.form.get('topologySelect')
         swarmInfo['dronesCount'] = request.form.get('dronesCount')
@@ -47,7 +47,7 @@ def home():
 
             swarmInfo['typesInfo'].append({ 'droneType': droneType, 'customReliability': customReliability, 'typeCount': typeCount, 'redundantCount': redundantCount })
 
-        print(swarmInfo)
+        # print(swarmInfo)
         calculation = Calculation(swarmInfo)
 
         # collect errors from the server side
@@ -56,10 +56,11 @@ def home():
             print(errors)
             return jsonify({"success": False, "errors": errors}), 400
         reliability = calculation.calculate()
-        print(reliability)
+        # print(reliability)
         return jsonify({"success": True, 'result': reliability })
     return render_template('home.html')
 
+# drones from database
 @app.route('/api/drones')
 def get_drones():
     drone_options = [{"name": drone[0], "reliability": drone[1], "description": drone[2]} for drone in drones_types]

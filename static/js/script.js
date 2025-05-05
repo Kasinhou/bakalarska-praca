@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateDroneTypes(parseInt(this.value, 10));
     });
 
-    // pridanie spolahlivosti riadiacej jednotky
+    // added the central unit reliability
     const connectionType = document.getElementById("connectionType");
     const reliabilityCUContainer = document.getElementById("reliabilityCUContainer");
 
@@ -29,14 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// pridanie typov dronov na zaklade vstupu
+// the types of drones section, based on the structure of the fleet
 async function updateDroneTypes(countTypesArg = null) {
     const droneTypesContainer = document.getElementById("dronesTypesContainer");
     const droneTypesCount = document.getElementById("dronesTypesCount");
     const structureType = document.getElementById("topologySelect").value;
     const isRedundant = structureType.includes("hot_stable");
 
-    // pre istotu
     let count = countTypesArg ?? parseInt(droneTypesCount?.value, 10);
     if (isNaN(count) || count < 1) {
         return;
@@ -44,6 +43,7 @@ async function updateDroneTypes(countTypesArg = null) {
 
     droneTypesContainer.innerHTML = "";
 
+    // drones from database which will show in dropdown menu
     try {
         const response = await fetch("/api/drones");
         const dronesOptions = await response.json();
@@ -80,6 +80,7 @@ async function updateDroneTypes(countTypesArg = null) {
                                            <label class="form-check-label" for="customTypeSwitch${i}">Custom</label>`;
             colType.appendChild(customSwitch);
 
+            // custom reliability
             customSwitch.querySelector(`#customTypeSwitch${i}`).addEventListener("change", function () {
                 const customInput = document.getElementById("customReliability" + i);
                 const select = document.getElementById("droneType" + i);
@@ -126,6 +127,7 @@ async function updateDroneTypes(countTypesArg = null) {
             row.appendChild(colType);
             row.appendChild(colTypeCount);
 
+            // input for number of non redundant drones in the fleet
             if (isRedundant) {
                 const colRedundantCount = document.createElement("div");
                 colRedundantCount.classList.add("col-4");
@@ -146,12 +148,13 @@ async function updateDroneTypes(countTypesArg = null) {
     }
 }
 
+// listener when user choose or change the structure of fleet
 document.getElementById("topologySelect").addEventListener("change", function (event) {
     const selectedOption = event.target.value;
     const dronesTypesCountContainer = document.getElementById("dronesTypesCountContainer");
     dronesTypesCountContainer.innerHTML = "";
 
-    // pocet typov iba ak je heterogenna
+    // the number of types only if the structure is heterogenous
     if (selectedOption.includes("heterogenous")) {
         const row = document.createElement("div");
         row.classList.add("row", "mt-2");
@@ -177,9 +180,9 @@ document.getElementById("topologySelect").addEventListener("change", function (e
     }
 });
 
+// trying to fetch data after submiting from user, and give user some response about result
 document.getElementById("formContainer").addEventListener("submit", async function (event) {
     event.preventDefault();
-    // alert("Form submitted!");
 
     const formData = new FormData(event.target);
     
@@ -211,6 +214,7 @@ function showResult(result) {
     
 }
 
+// this function will tell user what should he change
 function showErrors(errors) {
     const errorContainer = document.getElementById('resultsContainer');
     errorContainer.innerHTML = `<h2>Incorrect inputs</h2><hr>`;
